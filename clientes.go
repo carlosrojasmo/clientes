@@ -8,6 +8,7 @@ import (
 	"os"
 	"sync"
 	"time"
+	pb "go/src/proto/proto"
 )
 
 var wg = &sync.WaitGroup{}
