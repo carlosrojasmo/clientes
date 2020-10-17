@@ -1,10 +1,6 @@
 syntax = "proto3";
 
-option go_package = "go/src/proto/proto";
-
 package proto; 
-
-
 
 service OrdenService {
   rpc replyToOrder(sendToOrden) returns (replyFromOrden);
