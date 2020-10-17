@@ -8,6 +8,7 @@ import (
 	"os"
 	"sync"
 	"time"
+	pb "../proto"
 )
 
 var wg = &sync.WaitGroup{}
