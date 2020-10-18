@@ -37,8 +37,9 @@ func ordenesDePymes(period time.Duration){
 			log.Fatal(err)
 		}
 
-        wg.Add(1)
-		go clienteDePyme(ordenp,0)
+		wg.Add(1)
+		fmt.Println("pyme")
+		go clienteDePyme(ordenp,5)
 
 		time.Sleep(period * time.Second)
 		
@@ -72,25 +73,26 @@ func clienteDePyme(ordenp []string,period time.Duration){
 
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenp[0],Tipo : tip ,Nombre :  ordenp[1],
 		Valor : val,Origen : ordenp[3],Destino : ordenp[4]})
-
+		fmt.Println(err)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 
 	seg := r.GetSeguimiento() 
 
-
+	
 	//fmt.Printf("id: %s Producto %s Valor %s Tienda %s Destino %s Prioritario %s\n ", ordenp[0], ordenp[1], ordenp[2], 
 	//		ordenp[3], ordenp[4], ordenp[5])
 	for {
 		time.Sleep(period * time.Second)
 
-        r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
+		r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
+		fmt.Println(err)
         if err != nil {
 		    log.Fatalf("could not greet: %v", err)
 	    }
 
-	    est := r.GetEstado()
+		est := r.GetEstado()
 		if est == "Recibido" || est == "No Recibido" {
 			break
 		}
@@ -114,9 +116,9 @@ func ordenesDeRetail(period time.Duration){
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		fmt.Println("retail")
 	    wg.Add(1)
-		go clienteDeRetail(ordenr,0)
+		go clienteDeRetail(ordenr,5)
 		
 		time.Sleep(period * time.Second)
 		
@@ -144,7 +146,7 @@ func clienteDeRetail(ordenr []string,period time.Duration){
 
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenr[0],Tipo : "retail",Nombre :  ordenr[1],
 		Valor : val,Origen : ordenr[3],Destino : ordenr[4]})
-
+	fmt.Println(err)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
@@ -155,13 +157,13 @@ func clienteDeRetail(ordenr []string,period time.Duration){
 	//		ordenr[3], ordenr[4])
 	for {
 		time.Sleep(period * time.Second)
-
-        r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
+		r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
+		fmt.Println(err)
         if err != nil {
 		    log.Fatalf("could not greet: %v", err)
 	    }
 
-	    est := r.GetEstado()
+		est := r.GetEstado()
 		if est == "Recibido" || est == "No Recibido" {
 			break
 		}
@@ -177,7 +179,6 @@ func main() {
 
 	wg.Add(1)
 	go ordenesDePymes(4)
-
 	wg.Wait()
 	
 }
