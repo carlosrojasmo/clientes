@@ -84,7 +84,11 @@ func clienteDePyme(ordenp []string,period time.Duration){
 	//fmt.Printf("id: %s Producto %s Valor %s Tienda %s Destino %s Prioritario %s\n ", ordenp[0], ordenp[1], ordenp[2], 
 	//		ordenp[3], ordenp[4], ordenp[5])
 	for {
+
 		time.Sleep(period * time.Second)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+        defer cancel()
 
 		r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
 		fmt.Println(err)
@@ -159,6 +163,10 @@ func clienteDeRetail(ordenr []string,period time.Duration){
 	//		ordenr[3], ordenr[4])
 	for {
 		time.Sleep(period * time.Second)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+        defer cancel()
+        
 		r, err := c.GetState(ctx, &pb.ReplyFromOrden{Seguimiento : seg})
 		fmt.Println(err)
         if err != nil {
