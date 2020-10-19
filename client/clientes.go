@@ -56,8 +56,7 @@ func clienteDePyme(ordenp []string,period time.Duration){
 	defer conn.Close()
 	c := pb.NewOrdenServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+	
 
 	tip := "normal" 
 
@@ -70,11 +69,13 @@ func clienteDePyme(ordenp []string,period time.Duration){
 	if err != nil {
 		fmt.Printf("no")
 	}
-
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenp[0],Tipo : tip ,Nombre :  ordenp[1],
 		Valor : val,Origen : ordenp[3],Destino : ordenp[4]})
 		fmt.Println(err)
 	if err != nil {
+		fmt.Println("ES ACA AHHHHH")
 		log.Fatalf("could not greet: %v", err)
 	}
 
@@ -141,19 +142,20 @@ func clienteDeRetail(ordenr []string,period time.Duration){
 	defer conn.Close()
 	c := pb.NewOrdenServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+	
 
 	val,err := strconv.ParseInt(ordenr[2], 10, 64)
 
 	if err != nil {
 		fmt.Printf("no")
 	}
-
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenr[0],Tipo : "retail",Nombre :  ordenr[1],
 		Valor : val,Origen : ordenr[3],Destino : ordenr[4]})
 	fmt.Println(err)
 	if err != nil {
+		fmt.Println("ES ACA AHHHHH RETAIL")
 		log.Fatalf("could not greet: %v", err)
 	}
 
