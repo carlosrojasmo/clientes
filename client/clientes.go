@@ -77,7 +77,6 @@ func clienteDePyme(ordenp []string,period time.Duration){
 	defer cancel()
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenp[0],Tipo : tip ,Nombre :  ordenp[1],
 		Valor : val,Origen : ordenp[3],Destino : ordenp[4]}) //Enviamos la orden y recibimos el codigo de seguimiento.
-		fmt.Println(err)
 	if err != nil {
 		fmt.Println("No se pudo enviar la orden ",ordenp[0]," del tipo ",tip)
 		fmt.Println("could not greet: ", err)
