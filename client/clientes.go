@@ -155,7 +155,6 @@ func clienteDeRetail(ordenr []string,period time.Duration){
 	defer cancel()
 	r, err := c.ReplyToOrder(ctx, &pb.SendToOrden{IdPaquete : ordenr[0],Tipo : "retail",Nombre :  ordenr[1],
 		Valor : val,Origen : ordenr[3],Destino : ordenr[4]}) //Enviamos la orden y recibimos el codigo de seguimiento.
-	fmt.Println(err)
 	if err != nil {
 		fmt.Println("No se pudo enviar la orden ",ordenr[0]," del tipo retail")
 		fmt.Println("could not greet: ", err)
